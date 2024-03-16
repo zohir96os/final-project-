@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 //import routers
 import userRoute from "./routes/user.route.js";
+import authRoute from "./routes/auth.route.js";
 
 //Config env
 dotenv.config();
@@ -24,8 +25,12 @@ mongoose
 
 //Express
 const app = express();
+//Allow requestes from body
+app.use(express.json());
 
+//Use routes
 app.use("/api/user", userRoute);
+app.use("/api/auth", authRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is up & runing on port ${PORT}`);
