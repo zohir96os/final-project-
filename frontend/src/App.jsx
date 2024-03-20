@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import Blogs from "./pages/Blogs";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import PrivateRoute from "./components/PrivateRoute";
 const App = () => {
   return (
     <div>
@@ -17,7 +18,10 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/sign-in" element={<Signin />} />
           <Route path="/sign-up" element={<Signup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
+
           <Route path="/blogs" element={<Blogs />} />
         </Routes>
         <Footer />
