@@ -14,31 +14,26 @@ const DashSideBar = () => {
     }
   }, [location.search]);
   return (
-    <div>
-      <Sidebar className="w-full md:w-56">
-        <Sidebar.Items>
-          <Sidebar.ItemGroup>
-            <Link to="/dashboard?tab=profile">
-              <Sidebar.Item
-                active={tab === "profile"}
-                icon={HiUser}
-                label={"User"}
-                labelColor="dark"
-              >
-                Profile
-              </Sidebar.Item>
-            </Link>
+    <Sidebar className="w-full md:w-56">
+      <Sidebar.Items>
+        <Sidebar.ItemGroup>
+          <Link to="/dashboard?tab=profile">
             <Sidebar.Item
-              active
-              icon={HiArrowSmRight}
-              className="cursor-pointer"
+              active={tab === "profile"}
+              icon={HiUser}
+              label={"User"}
+              labelColor="dark"
+              as="div"
             >
-              Sign out
+              Profile
             </Sidebar.Item>
-          </Sidebar.ItemGroup>
-        </Sidebar.Items>
-      </Sidebar>
-    </div>
+          </Link>
+          <Sidebar.Item icon={HiArrowSmRight} className="cursor-pointer">
+            Sign out
+          </Sidebar.Item>
+        </Sidebar.ItemGroup>
+      </Sidebar.Items>
+    </Sidebar>
   );
 };
 
