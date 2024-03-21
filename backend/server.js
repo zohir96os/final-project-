@@ -2,6 +2,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 //import routers
 import userRoute from "./routes/user.route.js";
 import authRoute from "./routes/auth.route.js";
@@ -27,6 +28,7 @@ mongoose
 const app = express();
 //Allow requestes from body
 app.use(express.json());
+app.use(cookieParser());
 
 //Use routes
 app.use("/api/user", userRoute);
