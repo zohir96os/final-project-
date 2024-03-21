@@ -19,6 +19,7 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  signOutSuccess,
 } from "../redux/user/userSlice";
 
 export default function DashProfile() {
@@ -33,7 +34,7 @@ export default function DashProfile() {
   const [updateUserError, setUpdateUserError] = useState(null);
   const [showModel, setShowModel] = useState(false);
   const filePickerRef = useRef();
-  const dispatech = useDispatch();
+  const dispatch = useDispatch();
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -103,7 +104,7 @@ export default function DashProfile() {
       return;
     }
     try {
-      dispatech(updateStart());
+      dispatch(updateStart());
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: "PUT",
         headers: {
@@ -113,32 +114,47 @@ export default function DashProfile() {
       });
       const data = await res.json();
       if (!res.ok) {
-        dispatech(updateFailure(data.message));
+        dispatch(updateFailure(data.message));
         setUpdateUserError(data.message);
       } else {
-        dispatech(updateSuccess(data));
+        dispatch(updateSuccess(data));
         setUpdateUserSuccess("Profile updated successfully");
       }
     } catch (error) {
-      dispatech(updateFailure());
+      dispatch(updateFailure());
       setUpdateUserError(error.message);
     }
   };
   const handleDeleteUser = async () => {
     setShowModel(false);
     try {
-      dispatech(deleteUserStart());
+      dispatch(deleteUserStart());
       const res = await fetch(`/api/user/delete/${currentUser._id}`, {
         method: "DELETE",
       });
       const data = await res.json();
       if (!res.ok) {
-        dispatech(deleteUserFailure(data.message));
+        dispatch(deleteUserFailure(data.message));
       } else {
-        dispatech(deleteUserSuccess(data));
+        dispatch(deleteUserSuccess(data));
       }
     } catch (error) {
-      dispatech(deleteUserFailure(error.message));
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
     }
   };
   return (
@@ -218,7 +234,9 @@ export default function DashProfile() {
         <span onClick={() => setShowModel(true)} className="cursor-pointer">
           Delete Account
         </span>
-        <span className="cursor-pointer">Sign Out</span>
+        <span onClick={handleSignOut} className="cursor-pointer">
+          Sign Out
+        </span>
       </div>
       {updateUserSuccess && (
         <Alert color="success" className="mt-5">
