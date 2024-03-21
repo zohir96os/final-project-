@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 //import routers
 import userRoute from "./routes/user.route.js";
 import authRoute from "./routes/auth.route.js";
+import postRoutes from "./routes/post.route.js";
 
 //Config env
 dotenv.config();
@@ -33,6 +34,7 @@ app.use(cookieParser());
 //Use routes
 app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/post", postRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is up & runing on port ${PORT}`);
