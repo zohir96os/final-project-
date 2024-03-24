@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Table, TableHead } from "flowbite-react";
+import { Alert, Table, TableHead, Button, Modal } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { Button, Modal } from "flowbite-react";
 
 export default function DashPosts() {
   const { currentUser } = useSelector((state) => state.user);
@@ -18,7 +17,7 @@ export default function DashPosts() {
         const data = await res.json();
         if (res.ok) {
           setUserPost(data.posts);
-          if (data.length < 9) {
+          if (data.posts.length < 9) {
             setShowMore(false);
           }
         }
@@ -141,8 +140,10 @@ export default function DashPosts() {
             </button>
           )}
         </>
+      ) : currentUser.isAdmin ? (
+        <Alert color="success">No posts to show</Alert>
       ) : (
-        <p>You have no post yet</p>
+        <Alert color="failure">You are not allowed to access this page</Alert>
       )}
       <Modal
         show={showModal}
