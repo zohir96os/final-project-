@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Alert, Table, TableHead, Button, Modal } from "flowbite-react";
+import { Table, TableHead, Button, Modal, Spinner } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
@@ -10,6 +10,7 @@ export default function DashPosts() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState("");
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -17,6 +18,7 @@ export default function DashPosts() {
         const data = await res.json();
         if (res.ok) {
           setUserPost(data.posts);
+          setLoading(false);
           if (data.posts.length < 9) {
             setShowMore(false);
           }
@@ -26,6 +28,7 @@ export default function DashPosts() {
       }
     };
     if (currentUser.isAdmin) {
+      setLoading(true);
       fetchPosts();
     }
   }, [currentUser._id, currentUser.isAdmin]);
@@ -68,8 +71,12 @@ export default function DashPosts() {
     }
   };
   return (
-    <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
-      {currentUser.isAdmin && userPosts.length > 0 ? (
+    <div className="relative table-auto overflow-x-scroll  md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
+      {loading ? (
+        <div className="flex justify-center items-center min-h-screen">
+          <Spinner size="xl" />
+        </div>
+      ) : currentUser.isAdmin && userPosts.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
             <TableHead>
@@ -140,10 +147,14 @@ export default function DashPosts() {
             </button>
           )}
         </>
-      ) : currentUser.isAdmin ? (
-        <Alert color="success">No posts to show</Alert>
       ) : (
-        <Alert color="failure">You are not allowed to access this page</Alert>
+        <div
+          className="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
+          role="alert"
+        >
+          <span className="font-medium">There is no posts to show!</span> Create
+          some and check again.
+        </div>
       )}
       <Modal
         show={showModal}
