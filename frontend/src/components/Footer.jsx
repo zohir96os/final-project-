@@ -2,8 +2,11 @@ import { Footer, FooterCopyright, FooterDivider } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { FaEnvelope, FaFacebook, FaGithub } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { useSelector } from "react-redux";
 
 const FooterComp = () => {
+  const { currentUser } = useSelector((state) => state.user);
+
   return (
     <div>
       <Footer container className="border border-t-8 border-blue-500">
@@ -38,18 +41,27 @@ const FooterComp = () => {
                   >
                     About Blogos
                   </Footer.Link>
+                  {currentUser && currentUser.isAdmin ? (
+                    <Footer.Link href="/dashboard?tab=posts">Posts</Footer.Link>
+                  ) : (
+                    ""
+                  )}
                 </Footer.LinkGroup>
               </div>
               <div>
                 <Footer.Title title="Useful Links" />
                 <Footer.LinkGroup col>
                   <Footer.Link
-                    href="#"
-                    target="_blank"
+                    href="/dashboard?tab=profile"
                     rel="noopner noreferrer"
                   >
-                    Contact
+                    Profile
                   </Footer.Link>
+                  {currentUser && currentUser.isAdmin ? (
+                    <Footer.Link href="/create-post">Create Post</Footer.Link>
+                  ) : (
+                    ""
+                  )}
                   <Footer.Link
                     href="/contact"
                     target="_blank"
