@@ -13,6 +13,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../redux/theme/themeSlice";
 import { signOutSuccess } from "../redux/user/userSlice";
+import { useEffect, useState } from "react";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,14 @@ const Header = () => {
       console.log(error.message);
     }
   };
+  const [tab, setTab] = useState("");
+  useEffect(() => {
+    const urlParames = new URLSearchParams(location.search);
+    const tabFromUrl = urlParames.get("tab");
+    if (tabFromUrl) {
+      setTab(tabFromUrl);
+    }
+  }, []);
   return (
     <div>
       <Navbar className="border-b-2">
@@ -102,11 +111,21 @@ const Header = () => {
           <Navbar.Link active={path === "/"} as={"div"}>
             <Link to="/">Home</Link>
           </Navbar.Link>
-          <Navbar.Link active={path === "/about"} as={"div"}>
-            <Link to="/about">About</Link>
-          </Navbar.Link>
           <Navbar.Link active={path === "/blogs"} as={"div"}>
             <Link to="/blogs">Blogs</Link>
+          </Navbar.Link>
+          {currentUser && currentUser.isAdmin ? (
+            <Navbar.Link
+              active={path === "/dashboard" && tab === "posts"}
+              as={"div"}
+            >
+              <Link to="/dashboard?tab=posts">Posts</Link>
+            </Navbar.Link>
+          ) : (
+            ""
+          )}
+          <Navbar.Link active={path === "/about"} as={"div"}>
+            <Link to="/about">About</Link>
           </Navbar.Link>
         </Navbar.Collapse>
       </Navbar>
