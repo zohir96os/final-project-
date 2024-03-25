@@ -1,11 +1,13 @@
 import { Alert, Button, Textarea } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Comment from "../components/Comment";
 
 export default function CommentSection({ postId }) {
   const { currentUser } = useSelector((state) => state.user);
   const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
   const [commentError, setCommentError] = useState(null);
 
   const handleSubmit = async (e) => {
@@ -14,7 +16,7 @@ export default function CommentSection({ postId }) {
       return;
     }
     try {
-      const res = fetch("/api/comment/create", {
+      const res = await fetch("/api/comment/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,15 +31,27 @@ export default function CommentSection({ postId }) {
       if (res.ok) {
         setComment("");
         setCommentError(null);
+        setComments([data, ...comments]);
       }
     } catch (error) {
-      if (error.message == "res.json is not a function") {
-        setCommentError("Something went wrong.");
-      } else {
-        setCommentError(error.message);
-      }
+      setCommentError(error.message);
     }
   };
+
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        const res = await fetch(`/api/comment/getPostComments/${postId}`);
+        if (res.ok) {
+          const data = await res.json();
+          setComments(data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getComments();
+  }, [postId]);
   return (
     <div className="max-w-2xl mx-auto w-full p-3">
       {currentUser ? (
@@ -91,6 +105,21 @@ export default function CommentSection({ postId }) {
             </Alert>
           )}
         </form>
+      )}
+      {comments.length === 0 ? (
+        <p className="text-sm my-5">No comment to show</p>
+      ) : (
+        <>
+          <div className="text-sm my-5 flex items-center gap-1">
+            <p>Comments</p>
+            <div className="border border-gray-500 py-1 px-2 rounded-sm ">
+              <p>{comments.length}</p>
+            </div>
+          </div>
+          {comments.map((comment) => (
+            <Comment key={comment._id} comment={comment} />
+          ))}
+        </>
       )}
     </div>
   );
