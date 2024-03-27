@@ -38,10 +38,6 @@ app.use("/api/auth", authRoute);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server is up & runing on port ${PORT}`);
-});
-
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal server error";
@@ -50,4 +46,8 @@ app.use((err, req, res, next) => {
     statusCode,
     message,
   });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is up & runing on port ${PORT}`);
 });
