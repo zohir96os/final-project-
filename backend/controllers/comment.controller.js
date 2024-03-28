@@ -107,7 +107,7 @@ export const getComments = async (req, res, next) => {
       .sort({ createdAt: sortDirection })
       .skip(startIndex)
       .limit(limit);
-    const tottalComments = await Comment.countDocuments();
+    const totalComments = await Comment.countDocuments();
     const now = new Date();
 
     const oneMonthAgo = new Date(
@@ -118,7 +118,7 @@ export const getComments = async (req, res, next) => {
     const lastMonthComments = await Comment.countDocuments({
       createdAt: { $gte: oneMonthAgo },
     });
-    res.status(200).json({ comments, tottalComments, lastMonthComments });
+    res.status(200).json({ comments, totalComments, lastMonthComments });
   } catch (error) {
     next(error);
   }
