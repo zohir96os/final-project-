@@ -87,6 +87,7 @@ export default function UpdatePost() {
     try {
       const res = await fetch(
         `/api/post/updatepost/${formData._id}/${currentUser._id}`,
+
         {
           method: "PUT",
           headers: {
@@ -98,6 +99,7 @@ export default function UpdatePost() {
       const data = await res.json();
       if (!res.ok) {
         setpublishError(data.message);
+        console.log(data);
         return;
       }
       if (res.ok) {
