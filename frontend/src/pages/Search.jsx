@@ -154,7 +154,6 @@ export default function Search() {
           {!loading &&
             posts &&
             posts.map((post) => <PostCard key={post._id} post={post} />)}
-          if{" "}
           {showMore && (
             <button
               className="text-teal-500 text-lg hover:underline p-7 w-full"
