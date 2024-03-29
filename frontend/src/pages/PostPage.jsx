@@ -8,9 +8,9 @@ import PostCard from "../components/PostCard";
 export default function PostPage() {
   const { postSlug } = useParams();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [post, setPost] = useState(null);
   const [recentPosts, setRecentPosts] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchPost = async () => {

@@ -9,7 +9,7 @@ const Home = () => {
   useEffect(() => {
     try {
       const fetchPosts = async () => {
-        const res = await fetch(`/api/post/getposts?limit=9`);
+        const res = await fetch(`/api/post/getposts?limit=2`);
         const data = await res.json();
         if (res.ok) {
           setPosts(data.posts);

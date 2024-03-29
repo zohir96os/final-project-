@@ -18,9 +18,21 @@ import { useEffect, useState } from "react";
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const path = useLocation().pathname;
+  const [tab, setTab] = useState("");
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
   const handleSignOut = async () => {
     try {
       const res = await fetch("/api/user/signout", {
@@ -37,7 +49,7 @@ const Header = () => {
       console.log(error.message);
     }
   };
-  const [tab, setTab] = useState("");
+
   useEffect(() => {
     const urlParames = new URLSearchParams(location.search);
     const tabFromUrl = urlParames.get("tab");
@@ -45,6 +57,13 @@ const Header = () => {
       setTab(tabFromUrl);
     }
   }, []);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
   return (
     <div>
       <Navbar className="border-b-2">
@@ -57,12 +76,14 @@ const Header = () => {
           </span>
           os
         </Link>
-        <form>
+        <form onSubmit={handleSubmit}>
           <TextInput
             type="text"
+            value={searchTerm}
             placeholder="Search.."
             rightIcon={AiOutlineSearch}
             className="hidden lg:inline"
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </form>
         <Button className="w-12 h-10  lg:hidden" color="gray" pill>

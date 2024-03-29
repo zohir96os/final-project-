@@ -98,7 +98,6 @@ const DashSideBar = () => {
               </Link>
             </>
           )}
-
           <Sidebar.Item
             onClick={handleSignOut}
             icon={HiArrowSmRight}

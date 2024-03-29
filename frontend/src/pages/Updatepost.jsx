@@ -8,21 +8,22 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function UpdatePost() {
   const { currentUser } = useSelector((state) => state.user);
-  const { postId } = useParams();
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setpublishError] = useState(null);
+  const { postId } = useParams();
+
   useEffect(() => {
     try {
       const fetchPost = async () => {
@@ -38,6 +39,7 @@ export default function UpdatePost() {
           setFormData(data.posts[0]);
         }
       };
+
       fetchPost();
     } catch (error) {
       console.log(error.message);
@@ -80,12 +82,11 @@ export default function UpdatePost() {
       console.log(error);
     }
   };
-  const handleUpdate = async (e) => {
+  const handlePuplish = async (e) => {
     e.preventDefault();
     try {
       const res = await fetch(
         `/api/post/updatepost/${formData._id}/${currentUser._id}`,
-
         {
           method: "PUT",
           headers: {
@@ -97,7 +98,6 @@ export default function UpdatePost() {
       const data = await res.json();
       if (!res.ok) {
         setpublishError(data.message);
-        console.log(data);
         return;
       }
       if (res.ok) {
@@ -110,8 +110,8 @@ export default function UpdatePost() {
   };
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
-      <h1 className="text-center text-3xl my-7 font-semibold">Update a post</h1>
-      <form className="flex flex-col gap-4" onSubmit={handleUpdate}>
+      <h1 className="text-center text-3xl my-7 font-semibold">Update post</h1>
+      <form className="flex flex-col gap-4" onSubmit={handlePuplish}>
         <div className="flex flex-col gap-4 sm:flex-row  justify-between ">
           <TextInput
             type="text"
@@ -174,14 +174,14 @@ export default function UpdatePost() {
         )}
         <ReactQuill
           theme="snow"
+          value={formData.content}
           placeholder="Write something.."
           className="h-72 mb-12"
           required
           onChange={(value) => setFormData({ ...formData, content: value })}
-          value={formData.content}
         />
         <Button type="submit" gradientDuoTone="greenToBlue">
-          Update post
+          Update
         </Button>
         {publishError && (
           <Alert className="mt-5" color="failure">

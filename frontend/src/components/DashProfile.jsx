@@ -237,13 +237,14 @@ export default function DashProfile() {
         >
           {loading ? "Loading..." : "Update"}
         </Button>
-        {currentUser.isAdmin && (
-          <Link to="/create-post">
-            <Button gradientDuoTone="greenToBlue" className="w-full">
-              <IoMdCreate /> Create Post
-            </Button>
-          </Link>
-        )}
+        {currentUser.isAdmin ||
+          (currentUser.isSuperUser && (
+            <Link to="/create-post">
+              <Button gradientDuoTone="greenToBlue" className="w-full">
+                <IoMdCreate /> Create Post
+              </Button>
+            </Link>
+          ))}
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span onClick={() => setShowModel(true)} className="cursor-pointer">
