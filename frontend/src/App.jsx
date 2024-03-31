@@ -4,7 +4,6 @@ import About from "./pages/About";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Dashboard from "./pages/Dashboard";
-import Blogs from "./pages/Blogs";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
@@ -33,7 +32,6 @@ const App = () => {
             <Route path="/create-post" element={<CreatePost />} />
             <Route path="/update-post/:postId" element={<UpdatePost />} />
           </Route>
-          <Route path="/blogs" element={<Blogs />} />
           <Route path="/post/:postSlug" element={<PostPage />} />
         </Routes>
         <Footer />

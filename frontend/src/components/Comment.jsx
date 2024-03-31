@@ -8,6 +8,7 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
   const [user, setUser] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
+  const [editedPrint, setEditedPrint] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -43,13 +44,13 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
       });
       if (res.ok) {
         setIsEditing(false);
+        setEditedPrint(true);
         onEdit(comment, editedContent);
       }
     } catch (error) {
       console.log(error.message);
     }
   };
-  const handleDelete = async () => {};
   return (
     <div className="flex p-4 border-b dark:border-gray-600 text-sm ">
       <div className="flex-shrink-0 mr-3">
@@ -66,6 +67,9 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
           </span>
           <span className="text-gray-500 text-xs">
             {moment(comment.createdAt).fromNow()}
+            {editedPrint && (
+              <span className="text-gray-500  text-xs italic "> (edited)</span>
+            )}
           </span>
         </div>
         {isEditing ? (
@@ -116,26 +120,25 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
                     " " +
                     (comment.numberOfLikes === 1 ? "Like" : "Likes")}
               </p>
-              {currentUser &&
-                (currentUser._id === comment.userId || currentUser.isAdmin) && (
-                  <>
-                    <button
-                      type="button"
-                      className="text-gray-400 hover:text-blue-500"
-                      onClick={handleEdit}
-                    >
-                      Edit
-                    </button>
+              {currentUser && currentUser._id === comment.userId && (
+                <>
+                  <button
+                    type="button"
+                    className="text-gray-400 hover:text-blue-500"
+                    onClick={handleEdit}
+                  >
+                    Edit
+                  </button>
 
-                    <button
-                      type="button"
-                      className="text-gray-400 hover:text-red-500"
-                      onClick={() => onDelete(comment._id)}
-                    >
-                      Delete
-                    </button>
-                  </>
-                )}
+                  <button
+                    type="button"
+                    className="text-gray-400 hover:text-red-500"
+                    onClick={() => onDelete(comment._id)}
+                  >
+                    Delete
+                  </button>
+                </>
+              )}
             </div>
           </>
         )}

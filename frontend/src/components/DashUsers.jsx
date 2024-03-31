@@ -80,8 +80,7 @@ export default function DashUsers() {
               <Table.HeadCell>Username</Table.HeadCell>
               <Table.HeadCell>Email</Table.HeadCell>
               <Table.HeadCell>Admin</Table.HeadCell>
-              <Table.HeadCell>Super User</Table.HeadCell>
-              <Table.HeadCell>Delete</Table.HeadCell>
+              <Table.HeadCell>Action</Table.HeadCell>
             </Table.Head>
             {users.map((user) => (
               <Table.Body className="divide-y" key={user._id}>
@@ -105,13 +104,7 @@ export default function DashUsers() {
                       <FaTimes className="text-red-500" />
                     )}
                   </Table.Cell>
-                  <Table.Cell>
-                    {user.isSuperUser ? (
-                      <FaCheck className="text-green-500" />
-                    ) : (
-                      <FaTimes className="text-red-500" />
-                    )}
-                  </Table.Cell>
+
                   <Table.Cell>
                     <span
                       onClick={() => {

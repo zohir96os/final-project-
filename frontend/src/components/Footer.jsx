@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FaEnvelope, FaFacebook, FaGithub } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { useSelector } from "react-redux";
+import Logo from "./Logo";
 
 const FooterComp = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -13,15 +14,7 @@ const FooterComp = () => {
         <div className="w-full max-w-7xl mx-auto">
           <div className="grid w-full justify-between sm:flex md:grid-cols-1">
             <div className="mt-5">
-              <Link
-                to="/"
-                className="self-center whitespace-nowrap text-lg sm:text-xl font-semibold dark:text-white"
-              >
-                <span className="px-2 py-1 bg-gradient-to-r from-cyan-500 via-cyan-600 to-cyan-700 rounded-lg text-white">
-                  Blog
-                </span>
-                os
-              </Link>
+              <Logo />
             </div>
             <div className="grid gap-8  mt-4 sm: grid-cols-3 sm:gap-6">
               <div>

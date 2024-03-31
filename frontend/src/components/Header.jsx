@@ -1,5 +1,6 @@
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
+
 import {
   Navbar,
   TextInput,
@@ -14,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../redux/theme/themeSlice";
 import { signOutSuccess } from "../redux/user/userSlice";
 import { useEffect, useState } from "react";
+import Logo from "./Logo";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -67,15 +69,7 @@ const Header = () => {
   return (
     <div>
       <Navbar className="border-b-2">
-        <Link
-          to="/"
-          className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
-        >
-          <span className="px-2 py-1 bg-gradient-to-r from-cyan-500 via-cyan-600 to-cyan-700 rounded-lg text-white">
-            Blog
-          </span>
-          os
-        </Link>
+        <Logo />
         <form onSubmit={handleSubmit}>
           <TextInput
             type="text"
@@ -137,15 +131,19 @@ const Header = () => {
           <Navbar.Link active={path === "/"} as={"div"}>
             <Link to="/">Home</Link>
           </Navbar.Link>
-          <Navbar.Link active={path === "/blogs"} as={"div"}>
-            <Link to="/blogs">Blogs</Link>
-          </Navbar.Link>
           {currentUser && currentUser.isAdmin ? (
             <Navbar.Link
               active={path === "/dashboard" && tab === "posts"}
               as={"div"}
             >
               <Link to="/dashboard?tab=posts">Posts</Link>
+            </Navbar.Link>
+          ) : (
+            ""
+          )}
+          {currentUser && currentUser.isAdmin ? (
+            <Navbar.Link active={path === "/create-post"} as={"div"}>
+              <Link to="/create-post">New Post</Link>
             </Navbar.Link>
           ) : (
             ""

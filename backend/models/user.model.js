@@ -25,10 +25,6 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    isSuperUser: {
-      type: Boolean,
-      default: false,
-    },
   },
   { timestamps: true }
 );
