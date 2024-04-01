@@ -1,5 +1,6 @@
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
+import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 import {
   Navbar,
@@ -106,7 +107,16 @@ const Header = () => {
               }
             >
               <Dropdown.Header>
-                <span className="block text-sm ">@{currentUser.username}</span>
+                <span className="block text-sm ">
+                  {currentUser.isAdmin || currentUser.isVerified ? (
+                    <span className="flex  items-center gap-.5">
+                      @{currentUser.username}
+                      <RiVerifiedBadgeFill className="text-blue-500" />
+                    </span>
+                  ) : (
+                    `@${currentUser.username}`
+                  )}
+                </span>
                 <span className="block text-sm font-medium truncate">
                   {currentUser.email}
                 </span>

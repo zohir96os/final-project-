@@ -20,7 +20,7 @@ const App = () => {
       <ScrollToTop />
       <Header />
       <Routes>
-        <Route path="/*" element={<Page404 />} />
+        <Route path={"/*"} element={<Page404 />} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/sign-in" element={<Signin />} />

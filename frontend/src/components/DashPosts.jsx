@@ -113,7 +113,9 @@ export default function DashPosts() {
                     </Link>
                   </Table.Cell>
                   <Table.Cell>
-                    <Link to={`/post/${post.category}`}>{post.category}</Link>
+                    <Link to={`/search?cat=${post.category}`}>
+                      {post.category}
+                    </Link>
                   </Table.Cell>
                   <Table.Cell>
                     <span

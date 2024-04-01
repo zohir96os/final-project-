@@ -5,10 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import Comment from "../components/Comment";
 import { Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 export default function CommentSection({ postId }) {
   const { currentUser } = useSelector((state) => state.user);
   const [comment, setComment] = useState("");
+  const [editedPrint, setEditedPrint] = useState("edited");
   const [comments, setComments] = useState([]);
   const [commentError, setCommentError] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -125,7 +127,14 @@ export default function CommentSection({ postId }) {
             className="text-xs text-cyan-600 hover:underline"
             to={"/dashboard?tab=profile"}
           >
-            @{currentUser.username}
+            {currentUser.isAdmin || currentUser.isVerified ? (
+              <span className="flex  items-center gap-.5">
+                @{currentUser.username}
+                <RiVerifiedBadgeFill className="text-blue-500" />
+              </span>
+            ) : (
+              `@${currentUser.username}`
+            )}
           </Link>
         </div>
       ) : (

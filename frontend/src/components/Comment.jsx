@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { FaThumbsUp } from "react-icons/fa";
+import { RiVerifiedBadgeFill } from "react-icons/ri";
+
 import { useSelector } from "react-redux";
 import { Button, Textarea } from "flowbite-react";
 
@@ -62,8 +64,15 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
       </div>
       <div className="flex-1">
         <div className="flex items-center mb-1 ">
-          <span className="font-bold mr-1 text-xs truncate">
+          <span className="font-bold mr-1 flex items-center gap-1 text-xs truncate">
             {user ? `@${user.username}` : "Anonymous"}
+            {(user && user.isAdmin) || (user && user.isVerified) ? (
+              <span>
+                <RiVerifiedBadgeFill className="text-blue-500" />
+              </span>
+            ) : (
+              ""
+            )}
           </span>
           <span className="text-gray-500 text-xs">
             {moment(comment.createdAt).fromNow()}
