@@ -8,6 +8,7 @@ import {
   signInFailure,
 } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
+import Logo from "../components/Logo";
 
 const Signin = () => {
   const [formData, setFormData] = useState({});
@@ -48,10 +49,7 @@ const Signin = () => {
       <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
         <div className="flex-1">
           <Link to="/" className=" font-bold dark:text-white text-4xl">
-            <span className="px-2 py-1 bg-gradient-to-r from-cyan-500 via-cyan-600 to-cyan-700 rounded-lg text-white">
-              Blog
-            </span>
-            os
+            <Logo />
           </Link>
           <p className="text-sm mt-5">
             Welcome to Blogos, You can sign in with email and password, Or
@@ -97,7 +95,7 @@ const Signin = () => {
           <div className="flex  gap-2 text-sm mt-5">
             <span>Dont Have an account?</span>
             <Link to="/sign-up" className="text-blue-500">
-              Sing up
+              Sign up
             </Link>
           </div>
           {errorMessage && (
